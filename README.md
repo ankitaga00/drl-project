@@ -1,5 +1,6 @@
 🚦 CoLight-Inspired Cooperative Deep RL for Traffic Signal Control
 College Station Road Network Simulation (4-Intersection Prototype)
+
 📌 Overview
 
 This repository contains a CoLight-inspired multi-intersection traffic signal control project developed as part of a graduate Deep Reinforcement Learning coursework final project.
@@ -20,6 +21,7 @@ The implementation:
 This repository satisfies the course requirements: sequential decision making, experiment design, evaluation baselines, visualization, and written report.
 
 📂 Project Structure
+
 📦 traffic-colight-cs/
 │
 ├── multi_intersection_env.py       # Core traffic environment
@@ -43,9 +45,10 @@ This repository satisfies the course requirements: sequential decision making, e
 └── README.md                       # This file
 
 📌 Running Experiments
-✔ Train Cooperative CoLight-Inspired Model
-python train_colight.py
 
+✔ Train Cooperative CoLight-Inspired Model
+
+python train_colight.py
 
 This:
 
@@ -56,8 +59,8 @@ Saves model as trained_colight.pth
 Logs results under /results/
 
 ✔ Evaluate Cooperative Model
-python eval_colight.py
 
+python eval_colight.py
 
 Outputs average reward over test runs.
 
