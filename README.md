@@ -7,8 +7,7 @@ Python 3.8–3.11 recommended
 Git
 
 🔹 Clone the Repository
-git clone https://github.com/ankitaga00/drl-project
-cd drl-project
+git clone https://github.com/ankitaga00/drl-project.git
 
 🔹 Create & Activate a Virtual Environment
 python -m venv venv
