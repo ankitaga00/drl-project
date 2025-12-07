@@ -128,10 +128,10 @@ python src/train_colight.py
 This trains a graph-aware cooperative RL controller inspired by CoLight.
 
 ```
-# Model will be saved as:
+Model will be saved as:
 models/trained_colight.pth
 
-# Evaluate CoLight Performance:
+Evaluate CoLight Performance:
 python src/eval_colight.py
 ```
 5. **Visualize the Traffic Flow Simulation**
