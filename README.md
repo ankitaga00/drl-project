@@ -37,55 +37,46 @@ Pygame-based animations display intersection states, vehicle queues, and real-ti
 
 CoLight-Lite follows a modular architecture to support clarity, extensibility, and experimentation:
 
-Environment Simulation:
+* **Environment Simulation:**
 Custom Python environments (single_intersection_env.py, multi_intersection_env.py) implement queue dynamics, stochastic arrivals, and signal logic.
 
-Agent Models:
+* **Agent Models:**
+* *Independent DQN agents (dqn_agent.py)* 
+* *CoLight-Lite cooperative agent (colight_agent.py, colight_qnet.py)* 
 
-Independent DQN agents (dqn_agent.py)
-
-CoLight-Lite cooperative agent (colight_agent.py, colight_qnet.py)
-
-Training & Evaluation:
+* **Training & Evaluation:**
 Scripts for running fixed baselines, training RL models, and evaluating learned policies:
+* *run_fixed_baseline.py*
+* *train_independent_rl.py, train_colight.py*
+* *eval_independent_rl.py, eval_colight.py*
 
-run_fixed_baseline.py
-
-train_independent_rl.py, train_colight.py
-
-eval_independent_rl.py, eval_colight.py
-
-Prompt Assembly (Cooperative Inputs):
+* **Prompt Assembly (Cooperative Inputs):**
 The cooperative agent constructs a joint observation vector using graph adjacency, allowing each intersection to embed its neighbors' queue states.
 
-Inference Loop:
+* **Inference Loop:**
 During runtime, each intersection selects actions, updates Q-values, and synchronizes reward statistics to enable consistent evaluation across baselines.
 
-Visualization:
+* **Visualization:**
 Real-time queue animations are rendered using:
 
-visual_sim.py
+* *visual_sim.py*
 
-visual_queues.py
+* *visual_queues.py*
   
-Setup & Installation
+## Setup & Installation
 
 This guide walks you through installing and running CoLight-Lite, a simplified multi-agent reinforcement learning framework for traffic signal control.
 
-🔹 Prerequisites
+### Prerequisites
+* Python 3.8–3.11 (recommended)
+* Git
+* (Optional) A GPU machine if you want faster RL training
 
-Make sure you have the following installed:
-
-Python 3.8–3.11 (recommended)
-
-Git
-
-(Optional) A GPU machine if you want faster RL training
-
-🔹 Clone the Repository
-git clone https://github.com/ankitaga00/drl-project.git
+1. **Clone the repository:**
+```bash
+com/ankitaga00/drl-project.git
 cd drl-project
-
+```
 🔹 Create & Activate a Virtual Environment
 Windows
 python -m venv venv
