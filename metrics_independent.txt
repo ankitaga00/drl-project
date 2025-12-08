@@ -1,0 +1,3 @@
+avg_reward=-84712.23999999996
+avg_switches=1010.9
+avg_queue=84712.2109375

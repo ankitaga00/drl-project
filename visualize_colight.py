@@ -44,6 +44,9 @@ state_dict = env.reset()
 state_matrix = np.array(list(state_dict.values()))
 done = False
 frame_counter = 0
+min_green_steps = 3
+last_switch_time = {i: -min_green_steps for i in range(env.num_nodes)}
+step_counter = 0
 
 running = True
 while running:
@@ -59,8 +62,18 @@ while running:
         s_tensor = torch.FloatTensor(state_matrix).unsqueeze(0)  # (1,N,S)
         q_values = agent.q_net(s_tensor.squeeze(0), adj)
 
-        actions = agent.select_actions(q_values)
+        raw_actions = agent.select_actions(q_values)
+        actions = {}
 
+        for i in range(num_nodes):
+            # prevent switching unless minimum time passed
+            if raw_actions[i] == 1 and (step_counter - last_switch_time[i]) < min_green_steps:
+                actions[i] = 0
+            else:
+                actions[i] = raw_actions[i]
+                if raw_actions[i] == 1:
+                    last_switch_time[i] = step_counter
+        step_counter += 1
         next_state_dict, rewards, done = env.step(actions)
         state_matrix = np.array(list(next_state_dict.values()))
 

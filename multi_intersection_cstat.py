@@ -84,13 +84,23 @@ class TrafficNetworkEnv:
             self.adj_matrix[i, j] = 1.0
             self.adj_matrix[j, i] = 1.0
 
-    # -------- Core RL Environment API --------
+        self.last_phases = np.zeros(self.num_nodes, dtype=int)  # previous phase per node
+        self.switch_count = 0  # number of phase switches
+        self.total_queue = 0.0  # sum of all queues over episode
+        self.steps = 0
+
+        # -------- Core RL Environment API --------
 
     def reset(self):
         """
         Reset all intersections and return dict of 4 states.
         """
-        return {i: self.intersections[i].reset() for i in range(self.num_nodes)}
+        states = {i: self.intersections[i].reset() for i in range(self.num_nodes)}
+        self.last_phases = np.zeros(self.num_nodes, dtype=int)
+        self.switch_count = 0
+        self.total_queue = 0.0
+        self.steps = 0
+        return states
 
     def step(self, actions):
         """
@@ -103,6 +113,15 @@ class TrafficNetworkEnv:
         for i in range(self.num_nodes):
             a = actions.get(i, 0)  # default: keep phase
             s_next, r, done_i, info = self.intersections[i].step(a)
+            curr_phase = np.argmax(s_next[2:4])
+
+            if curr_phase != self.last_phases[i]:
+                self.switch_count += 1
+                self.last_phases[i] = curr_phase
+
+            q_ns = s_next[0]
+            q_ew = s_next[1]
+            self.total_queue += (q_ns + q_ew)
 
             next_states[i] = s_next
             rewards[i] = r
