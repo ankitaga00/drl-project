@@ -20,8 +20,8 @@ This project was developed as part of the course **Deep Reinforcement Learning**
 
 ## Key Features
 
-* **Graph-Aware Cooperative RL:**
-A simplified CoLight-style message passing: each agent incorporates neighbor state information using adjacency-conditioned Q-values rather than full attention.
+* **Graph-Aware RL Approximation:**
+A simplified CoLight-inspired design where adjacency influences Q-values via pooled neighbor state effects instead of full attention layers.
 
 * **Modular Multi-Intersection Simulator:**
 A custom Python environment modeling stochastic vehicle arrivals, queue buildup & dissipation and phase switching & timing
@@ -29,11 +29,12 @@ A custom Python environment modeling stochastic vehicle arrivals, queue buildup 
 * **Independent vs. Cooperative RL Baselines:**
 Side-by-side training pipelines for independent DQNs and cooperative agents, enabling fair comparison.
 
-* **Explainable Metrics:**
-The system reports queue lengths, travel delays, and episode-level rewards for transparent evaluation.
+* **Performance Metrics:**
+The system logs episode-level rewards and enables quantitative comparison between fixed-time, independent RL, and CoLight-Lite controllers.
 
 * **Visualization Tools:**
-Pygame-based animations display queue buildup across intersections, signal switching and movement effects under learned policies.
+A simple Pygame interface shows queue growth and signal changes at intersections to help illustrate policy behavior
+
 
 ## Project Architecture
 
@@ -52,8 +53,8 @@ Scripts for running fixed baselines, training RL models, and evaluating learned 
   - *train_independent_multi.py, train_colight_multi.py*
   - *eval_independent_multi.py, eval_colight_multi.py*
 
-* **Prompt Assembly (Cooperative Inputs):**
-The cooperative agent constructs a joint observation vector using graph adjacency, allowing each intersection to embed its neighbors' queue states.
+* **Neighbor Influence (Cooperation):**
+The cooperative agent aggregates state information from adjacent intersections using adjacency-conditioned state pooling to approximate CoLight-style coordination.
 
 * **Inference Loop:**
 During runtime, each intersection selects actions, updates Q-values, and synchronizes reward statistics to enable consistent evaluation across baselines.
@@ -151,11 +152,12 @@ Note: This visualization is intentionally simple and designed for clarity—not 
 
 ### Comparing All Approaches
 
-**To generate a plot comparing average performance of all appproaches**
+**To generate a bar plot comparing average evaluation performance of all approaches:**
 ```bash
 python src/plot_comparison_curves.py
 ```
 
-This outputs bar graphs representing performance and saves in PNG format
+Generates a bar graph in PNG format
+
 
 
