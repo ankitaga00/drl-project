@@ -6,23 +6,25 @@
 
 ## Overview
 
-**CoLight-Lite** is a lightweight multi-agent reinforcement learning framework designed to explore cooperative traffic signal control across connected intersections. Inspired by the original CoLight architecture (Wei et al., 2019), this project implements a simplified but functional version of graph-based coordination using adjacency-aware Q-networks rather than full attention mechanisms.
+**CoLight-Lite** is a lightweight multi-agent reinforcement learning framework for cooperative traffic signal optimization across connected intersections.
+Inspired by CoLight (Wei et al., 2019), this implementation develops a simplified and reproducible version suitable for experimentation and course research.
 
-The system simulates a four-intersection region in College Station, TX, enabling comparative evaluation between:
+The system integrates:
 
-* **Fixed-time control**
+* **A custom multi-intersection simulator for College Station, Texas**
 * **Independent RL controllers (DQN)**
 * **Cooperative RL using network structure (CoLight-Lite)**
+* **Real-time visualization and performance logging**
 
-This project was developed as a **Deep Reinforcement Learning Project**.
+This project was developed as part of the course **Deep Reinforcement Learning**.
 
 ## Key Features
 
 * **Graph-Aware Cooperative RL:**
-A simplified CoLight-style coordination mechanism where each agent incorporates neighboring intersection states via adjacency-conditioned Q-values.
+A simplified CoLight-style message passing: each agent incorporates neighbor state information using adjacency-conditioned Q-values rather than full attention.
 
-* **Custom Multi-Intersection Simulator:**
-A lightweight stochastic traffic simulator built specifically for experimentation, supporting queues, arrival processes, and phase switching.
+* **Modular Multi-Intersection Simulator:**
+A custom Python environment modeling stochastic vehicle arrivals, queue buildup & dissipation and phase switching & timing
 
 * **Independent vs. Cooperative RL Baselines:**
 Side-by-side training pipelines for independent DQNs and cooperative agents, enabling fair comparison.
@@ -31,24 +33,24 @@ Side-by-side training pipelines for independent DQNs and cooperative agents, ena
 The system reports queue lengths, travel delays, and episode-level rewards for transparent evaluation.
 
 * **Visualization Tools:**
-Pygame-based animations display intersection states, vehicle queues, and real-time signal switching.
+Pygame-based animations display queue buildup across intersections, signal switching and movement effects under learned policies.
 
 ## Project Architecture
 
 CoLight-Lite follows a modular architecture to support clarity, extensibility, and experimentation:
 
 * **Environment Simulation:**
-Custom Python environments (single_intersection_env.py, multi_intersection_env.py) implement queue dynamics, stochastic arrivals, and signal logic.
+Custom Python environments (single_intersection_env.py, multi_intersection_cstat.py) implement queue dynamics, stochastic arrivals, and signal logic.
 
 * **Agent Models:**
   - *Independent DQN agents (dqn_agent.py)* 
-  - *CoLight-Lite cooperative agent (colight_agent.py, colight_qnet.py)* 
+  - *CoLight-Lite cooperative agent (colight_agent_new.py, colight_network.py)* 
 
 * **Training & Evaluation:**
 Scripts for running fixed baselines, training RL models, and evaluating learned policies:
-  - *run_fixed_baseline.py*
-  - *train_independent_rl.py, train_colight.py*
-  - *eval_independent_rl.py, eval_colight.py*
+  - *run_multi_fixed.py*
+  - *train_independent_multi.py, train_colight_multi.py*
+  - *eval_independent_multi.py, eval_colight_multi.py*
 
 * **Prompt Assembly (Cooperative Inputs):**
 The cooperative agent constructs a joint observation vector using graph adjacency, allowing each intersection to embed its neighbors' queue states.
@@ -57,16 +59,16 @@ The cooperative agent constructs a joint observation vector using graph adjacenc
 During runtime, each intersection selects actions, updates Q-values, and synchronizes reward statistics to enable consistent evaluation across baselines.
 
 * **Visualization:**
-Real-time queue animations are rendered using:
-  - *visual_sim.py*
-  - *visual_queues.py*
+-*visualize_colight.py* — animated simulation viewer
+-*plot_graphs.py* — produces comparison plots
+-*comparison_plot.png* — generated performance figure
   
 ## Setup & Installation
 
 This guide walks you through installing and running CoLight-Lite, a simplified multi-agent reinforcement learning framework for traffic signal control.
 
 ### Prerequisites
-* Python 3.8–3.11 (recommended)
+* Python 3.10 (recommended)
 * Git
 * (Optional) A GPU machine if you want faster RL training
 
@@ -96,13 +98,13 @@ The project includes three traffic control approaches:
 
 1. **Run the Fixed-Time Baseline**
 ```bash
-python src/run_fixed_baseline.py
+python src/run_multi_fixed.py
 ```
 This executes the non-learning baseline using simple periodic timing.
 
 2. **Train the Independent RL Agents**
 ```bash
-python src/train_independent_rl.py
+python src/train_independent_multi.py
 ```
 This trains four independent DQN agents (one per intersection).
 
@@ -118,12 +120,12 @@ models/
 
 3. **Evaluate the Independent RL Performance**
 ```bash
-python src/eval_independent_rl.py
+python src/eval_independent_multi.py
 ```
 
 4. **Train the CoLight-Lite Cooperative Agent** (Optional step)
 ```bash
-python src/train_colight.py
+python src/train_colight_multi.py
 ```
 This trains a graph-aware cooperative RL controller inspired by CoLight.
 
@@ -132,11 +134,11 @@ Model will be saved as:
 models/trained_colight.pth
 
 Evaluate CoLight Performance:
-python src/eval_colight.py
+python src/eval_colight_multi.py
 ```
 5. **Visualize the Traffic Flow Simulation**
 ```bash
-python src/visual_queues.py
+python src/visualize_colight.py
 ```
 
 This displays a lightweight 2D simulation showing:
@@ -145,18 +147,14 @@ This displays a lightweight 2D simulation showing:
 
 2. Queue lengths evolving over time
 
-3. Vehicle movements
-
 Note: This visualization is intentionally simple and designed for clarity—not SUMO-level fidelity.
 
 ### Comparing All Approaches
 
-**To generate comparative plots (queue length, reward curves, etc.):**
+**To generate a plot comparing average performance of all appproaches**
 ```bash
 python src/plot_comparison_curves.py
 ```
 
-This outputs PNG graphs summarizing:
-* Fixed-time baseline
-* Independent DQN agents
-* CoLight-Lite cooperative RL
+This outputs PNG graph with bar graphs representing performance
+
