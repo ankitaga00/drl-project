@@ -1,0 +1,7 @@
+numpy
+torch
+pygame
+osmnx
+networkx
+scikit-learn
+matplotlib
