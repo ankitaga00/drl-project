@@ -160,8 +160,3 @@ This outputs PNG graphs summarizing:
 * Fixed-time baseline
 * Independent DQN agents
 * CoLight-Lite cooperative RL
-
-## Acknowledgments
-[CoLight: Learning Network-level Cooperation
-for Traffic Signal Control](https://arxiv.org/pdf/1905.05717)
-
