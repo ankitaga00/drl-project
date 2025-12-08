@@ -154,10 +154,11 @@ Note: This visualization is intentionally simple and designed for clarity—not 
 
 **To generate a bar plot comparing average evaluation performance of all approaches:**
 ```bash
-python src/plot_comparison_curves.py
+python src/plot_graphs.py
 ```
 
 Generates a bar graph in PNG format
+
 
 
 
