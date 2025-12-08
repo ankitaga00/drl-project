@@ -156,5 +156,6 @@ Note: This visualization is intentionally simple and designed for clarity—not 
 python src/plot_comparison_curves.py
 ```
 
-This outputs PNG graph with bar graphs representing performance
+This outputs bar graphs representing performance and saves in PNG format
+
 
